@@ -10,14 +10,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import androidx.compose.runtime.collectAsState
+import androidx.lifecycle.viewmodel.compose.viewModel
 
 
 @Composable
-fun RegisterActivityScreen(navController: NavController) {
-    var activityType by remember { mutableStateOf("") }
-    var duration by remember { mutableStateOf("") }
-    var calories by remember { mutableStateOf("") }
-    var errorMessage by remember { mutableStateOf("") }
+fun RegisterActivityScreen(navController: NavController, viewModel: RegisterActivityViewModel = viewModel()) {
+    val activityType by viewModel.activityType.collectAsState()
+    val duration by viewModel.duration.collectAsState()
+    val calories by viewModel.calories.collectAsState()
+    val errorMessage by viewModel.errorMessage.collectAsState()
 
     Column(
         modifier = Modifier
@@ -26,14 +28,15 @@ fun RegisterActivityScreen(navController: NavController) {
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(text = "Registro de las Actividades", style = MaterialTheme.typography.headlineLarge)
+        Text(text = "Registro de las Actividades",
+            style = MaterialTheme.typography.headlineLarge)
 
         Spacer(modifier = Modifier.height(16.dp))
 
         // Campo para tipo de actividad
         TextField(
             value = activityType,
-            onValueChange = { activityType = it },
+            onValueChange = { viewModel.onActivityTypeChange(it) },
             label = { Text("Tipo de Actividad") },
             modifier = Modifier.fillMaxWidth()
         )
@@ -43,7 +46,7 @@ fun RegisterActivityScreen(navController: NavController) {
         // Campo para duración
         TextField(
             value = duration,
-            onValueChange = { duration = it },
+            onValueChange = { viewModel.onDurationChange(it) },
             label = { Text("Duración (minutos)") },
             modifier = Modifier.fillMaxWidth(),
             singleLine = true
@@ -54,7 +57,7 @@ fun RegisterActivityScreen(navController: NavController) {
         // Campo para calorías quemadas
         TextField(
             value = calories,
-            onValueChange = { calories = it },
+            onValueChange = { viewModel.onCaloriesChange(it) },
             label = { Text("Calorías Quemadas") },
             modifier = Modifier.fillMaxWidth(),
             singleLine = true
@@ -65,14 +68,7 @@ fun RegisterActivityScreen(navController: NavController) {
         // Botón para guardar actividad
         Button(
             onClick = {
-                val durationValue = duration.toIntOrNull() ?: 0
-                val caloriesValue = calories.toIntOrNull() ?: 0
-
-                if (activityType.isBlank() || durationValue <= 0 || caloriesValue <= 0) {
-                    errorMessage = "Por favor, completa todos los campos correctamente."
-                } else {
-                    // Aquí guardaríamos los datos en la base de datos o llamamos al ViewModel
-                    errorMessage = ""
+                viewModel.validateAndSave {
                     navController.navigate("dashboard")
                 }
             },

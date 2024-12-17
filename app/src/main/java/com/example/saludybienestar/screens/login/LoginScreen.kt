@@ -14,24 +14,25 @@ import androidx.navigation.NavController
 
 @Composable
 fun LoginScreen(navController: NavController, viewModel: LoginViewModel) {
-    val email by viewModel::email
-    val password by viewModel::password
-    val errorMessage by viewModel::errorMessage
+    val email by viewModel.email.collectAsState()
+    val password by viewModel.password.collectAsState()
+    val errorMessage by viewModel.errorMessage.collectAsState()
 
     Column(
         modifier = Modifier
             .fillMaxSize()
             .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
+        verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        Text(text = "Bienvenido a la app de salud y bienestar", style = MaterialTheme.typography.headlineLarge)
+        Text(text = "Bienvenido a la app de salud y bienestar",
+            style = MaterialTheme.typography.headlineLarge)
 
         Spacer(modifier = Modifier.height(16.dp))
 
         TextField(
             value = email,
-            onValueChange = { viewModel.email = it },
+            onValueChange = { viewModel.onEmailChange(it)},
             label = { Text("Correo Electrónico") },
             modifier = Modifier.fillMaxWidth(),
             singleLine = true
@@ -41,7 +42,7 @@ fun LoginScreen(navController: NavController, viewModel: LoginViewModel) {
 
         TextField(
             value = password,
-            onValueChange = { viewModel.password = it },
+            onValueChange = { viewModel.onPasswordChange(it)  },
             label = { Text("Contraseña") },
             modifier = Modifier.fillMaxWidth(),
             singleLine = true,
@@ -51,7 +52,8 @@ fun LoginScreen(navController: NavController, viewModel: LoginViewModel) {
         Spacer(modifier = Modifier.height(8.dp))
 
         Button(
-            onClick = { viewModel.validateCredentials(navController) },
+            onClick = {
+                viewModel.validateCredentials(navController) },
             modifier = Modifier.fillMaxWidth()
         ) {
             Text("Iniciar Sesión")
@@ -60,7 +62,8 @@ fun LoginScreen(navController: NavController, viewModel: LoginViewModel) {
         Spacer(modifier = Modifier.height(8.dp))
 
         if (errorMessage.isNotBlank()) {
-            Text(text = errorMessage, color = MaterialTheme.colorScheme.error)
+            Text(text = errorMessage,
+                color = MaterialTheme.colorScheme.error)
         }
     }
 }

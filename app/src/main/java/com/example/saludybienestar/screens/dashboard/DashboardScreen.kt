@@ -8,6 +8,8 @@ import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -15,7 +17,15 @@ import androidx.compose.ui.Alignment
 
 
 @Composable
-fun DashboardScreen(navController: NavController) {
+fun DashboardScreen(navController: NavController, viewModel: DashboardViewModel) {
+
+    // Observa los datos desde el ViewModel
+    val caloriesConsumed by viewModel.caloriesConsumed.collectAsState()
+    val caloriesBurned by viewModel.caloriesBurned.collectAsState()
+    val steps by viewModel.steps.collectAsState()
+    val progress by viewModel.progress.collectAsState()
+
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -25,21 +35,27 @@ fun DashboardScreen(navController: NavController) {
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        InfoCard(title = "Calorías Consumidas", value = "1200")
-        InfoCard(title = "Calorías Quemadas", value = "500")
-        InfoCard(title = "Pasos", value = "7500")
+        InfoCard(title = "Calorías Consumidas", value = "$caloriesConsumed")
+        InfoCard(title = "Calorías Quemadas", value = "$caloriesBurned")
+        InfoCard(title = "Pasos", value = "$steps")
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        ProgressBar(title = "Progreso del Día", progress = 0.7f)
+        ProgressBar(title = "Progreso del Día", progress = progress)
 
         Spacer(modifier = Modifier.height(16.dp))
+
 
         Button(
             onClick = { navController.navigate("registro") },
             modifier = Modifier.align(Alignment.CenterHorizontally)
         ) {
             Text("Registrar Actividad", style = MaterialTheme.typography.bodyLarge)
+        }
+
+        /*Redirecciones a otra pantalla*/
+        Button(onClick = { navController.navigate("registro") }) {
+            Text("Ir a Registro de Actividad")
         }
     }
 }
