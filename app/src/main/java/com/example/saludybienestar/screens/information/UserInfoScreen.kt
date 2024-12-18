@@ -36,25 +36,29 @@ fun UserInfoScreen(navController: NavController, viewModel: UserInfoViewModel = 
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        // Tarjeta de información
+        // Tarjetas de información del usuario
         UserInfoCard(label = "Nombre", value = name.value)
         UserInfoCard(label = "Edad", value = "${age.value} años")
         UserInfoCard(label = "Peso", value = "${weight.value} kg")
         UserInfoCard(label = "Estatura", value = "${height.value} m")
-    }
-    Button(
-        onClick = { navController.navigate("dashboard") },
-        modifier = Modifier.fillMaxWidth()
-    ) {
-        Text("Información del Usuario")
-    }
 
+        Spacer(modifier = Modifier.height(16.dp))
 
-    Button(
-        onClick = { navController.navigate("manual") },
-        modifier = Modifier.fillMaxWidth()
-    ) {
-        Text("Manual sobre la app")
+        // Botón para regresar al Dashboard
+        Button(
+            onClick = { navController.navigate("dashboard") },
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text("Regresar al Dashboard")
+        }
+
+        // Botón para ir al manual de la app
+        Button(
+            onClick = { navController.navigate("manual") },
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text("Manual sobre la app")
+        }
     }
 }
 
