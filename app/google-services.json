@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "23910272180",
+    "project_id": "salud-y-bienestar-ba150",
+    "storage_bucket": "salud-y-bienestar-ba150.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:23910272180:android:b7a033905c13071b455be1",
+        "android_client_info": {
+          "package_name": "com.example.saludybienestar"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCufO6Dt07kJQ-JgEk_0YUqUybuq6cpI_E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

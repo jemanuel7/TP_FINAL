@@ -2,12 +2,12 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
-
+    id("com.google.gms.google-services")
 }
 
 android {
     namespace = "com.example.saludybienestar"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.example.saludybienestar"
@@ -41,6 +41,19 @@ android {
 }
 
 dependencies {
+    implementation(platform("com.google.firebase:firebase-bom:33.7.0"))
+    implementation("com.google.firebase:firebase-analytics")
+    implementation(platform("com.google.firebase:firebase-bom:33.7.0"))
+    implementation("com.google.firebase:firebase-auth")
+    implementation("com.google.firebase:firebase-storage")
+    implementation(platform("com.google.firebase:firebase-bom:33.7.0"))
+    implementation ("com.google.android.gms:play-services-auth:20.6.0")
+    implementation ("androidx.room:room-runtime:2.6.1") // Room Database
+    annotationProcessor ("androidx.room:room-compiler:2.5.2") // Compilador
+    implementation ("com.google.firebase:firebase-firestore-ktx:24.8.1")
+    implementation("com.google.firebase:firebase-firestore")
+    implementation ("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2") // Para LiveData
+    implementation ("androidx.room:room-ktx:2.5.2") //Kotlin extension
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
@@ -58,9 +71,5 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
-    implementation ("androidx.room:room-runtime:2.6.1") // Room Database
-    annotationProcessor ("androidx.room:room-compiler:2.5.2") // Compilador
-    implementation ("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2") // Para LiveData
-    implementation ("androidx.room:room-ktx:2.5.2") //Kotlin extension
 }
 

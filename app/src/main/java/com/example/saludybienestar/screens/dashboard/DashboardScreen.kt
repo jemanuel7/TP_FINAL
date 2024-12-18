@@ -1,5 +1,6 @@
 package com.example.saludybienestar.screens.dashboard
 
+import DashboardViewModel
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card

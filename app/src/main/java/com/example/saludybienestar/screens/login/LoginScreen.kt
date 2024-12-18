@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -11,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.google.firebase.auth.FirebaseAuth
 
 @Composable
 fun LoginScreen(navController: NavController, viewModel: LoginViewModel) {
@@ -66,4 +68,18 @@ fun LoginScreen(navController: NavController, viewModel: LoginViewModel) {
                 color = MaterialTheme.colorScheme.error)
         }
     }
+
+    Spacer(modifier = Modifier.height(16.dp))
+
+    // Botón para redirigir al registro
+    TextButton(
+        onClick = { navController.navigate("register") } // Navega a la pantalla de registro
+    ) {
+        Text(
+            text = "¿No tienes cuenta? Regístrate aquí",
+            style = MaterialTheme.typography.bodyLarge
+        )
+    }
+}
+
 }
