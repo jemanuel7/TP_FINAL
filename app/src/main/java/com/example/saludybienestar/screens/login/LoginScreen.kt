@@ -27,14 +27,16 @@ fun LoginScreen(navController: NavController, viewModel: LoginViewModel) {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        Text(text = "Bienvenido a la app de salud y bienestar",
-            style = MaterialTheme.typography.headlineLarge)
+        Text(
+            text = "Bienvenido a la app de salud y bienestar",
+            style = MaterialTheme.typography.headlineLarge
+        )
 
         Spacer(modifier = Modifier.height(16.dp))
 
         TextField(
             value = email,
-            onValueChange = { viewModel.onEmailChange(it)},
+            onValueChange = { viewModel.onEmailChange(it) },
             label = { Text("Correo Electrónico") },
             modifier = Modifier.fillMaxWidth(),
             singleLine = true
@@ -44,7 +46,7 @@ fun LoginScreen(navController: NavController, viewModel: LoginViewModel) {
 
         TextField(
             value = password,
-            onValueChange = { viewModel.onPasswordChange(it)  },
+            onValueChange = { viewModel.onPasswordChange(it) },
             label = { Text("Contraseña") },
             modifier = Modifier.fillMaxWidth(),
             singleLine = true,
@@ -55,7 +57,8 @@ fun LoginScreen(navController: NavController, viewModel: LoginViewModel) {
 
         Button(
             onClick = {
-                viewModel.validateCredentials(navController) },
+                viewModel.validateCredentials(navController)
+            },
             modifier = Modifier.fillMaxWidth()
         ) {
             Text("Iniciar Sesión")
@@ -64,23 +67,22 @@ fun LoginScreen(navController: NavController, viewModel: LoginViewModel) {
         Spacer(modifier = Modifier.height(8.dp))
 
         if (errorMessage.isNotBlank()) {
-            Text(text = errorMessage,
-                color = MaterialTheme.colorScheme.error)
+            Text(
+                text = errorMessage,
+                color = MaterialTheme.colorScheme.error
+            )
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        // Botón para redirigir al registro
+        TextButton(
+            onClick = { navController.navigate("register") } // Navega a la pantalla de registro
+        ) {
+            Text(
+                text = "¿No tienes cuenta? Regístrate aquí",
+                style = MaterialTheme.typography.bodyLarge
+            )
         }
     }
-    Spacer(modifier = Modifier.height(8.dp))
-
-    // Botón para redirigir al registro
-    TextButton(
-        onClick = { navController.navigate("register") } // Navega a la pantalla de registro
-    ) {
-        Text(
-            text = "¿No tienes cuenta? Regístrate aquí",
-            style = MaterialTheme.typography.bodyLarge
-        )
-    }
-
-    Spacer(modifier = Modifier.height(16.dp))
-
-
 }
