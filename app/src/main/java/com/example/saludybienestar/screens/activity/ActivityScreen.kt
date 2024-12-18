@@ -79,6 +79,17 @@ fun RegisterActivityScreen(navController: NavController, viewModel: RegisterActi
 
         Spacer(modifier = Modifier.height(8.dp))
 
+        Button(
+            onClick = {
+                viewModel.validateAndSave {
+                    navController.navigate("userInfo")
+                }
+            },
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text("Información del usuario")
+        }
+
         // Mensaje de error
         if (errorMessage.isNotBlank()) {
             Text(text = errorMessage, color = MaterialTheme.colorScheme.error)

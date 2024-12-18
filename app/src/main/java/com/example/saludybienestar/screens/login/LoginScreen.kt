@@ -68,8 +68,7 @@ fun LoginScreen(navController: NavController, viewModel: LoginViewModel) {
                 color = MaterialTheme.colorScheme.error)
         }
     }
-
-    Spacer(modifier = Modifier.height(16.dp))
+    Spacer(modifier = Modifier.height(8.dp))
 
     // Botón para redirigir al registro
     TextButton(
@@ -80,6 +79,8 @@ fun LoginScreen(navController: NavController, viewModel: LoginViewModel) {
             style = MaterialTheme.typography.bodyLarge
         )
     }
-}
+
+    Spacer(modifier = Modifier.height(16.dp))
+
 
 }

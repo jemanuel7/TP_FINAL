@@ -1,15 +1,17 @@
 import androidx.lifecycle.ViewModel
-import com.google.firebase.Firebase
+import androidx.lifecycle.viewModelScope
+import com.google.firebase.FirebaseApp
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.firestore
-import com.google.firebase.initialize
-import com.google.firebase.storage.storage
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.withContext
 
 class DashboardViewModel : ViewModel() {
 
-    // Estado de las calorías, pasos y progreso
+    // Estados de las calorías, pasos y progreso
     private val _caloriesConsumed = MutableStateFlow(0)
     val caloriesConsumed = _caloriesConsumed.asStateFlow()
 
@@ -23,31 +25,34 @@ class DashboardViewModel : ViewModel() {
     val progress = _progress.asStateFlow()
 
     // Instancia de Firestore
-    private val db = Firebase.firestore
+    private val db: FirebaseFirestore by lazy {
+        FirebaseFirestore.getInstance()
+    }
 
     init {
+        // Verifica la inicialización de Firebase
+        FirebaseApp.initializeApp(FirebaseApp.getInstance().applicationContext)
         loadDashboardData()
     }
 
     private fun loadDashboardData() {
-        db.collection("resumen")
-            .get()
-            .addOnSuccessListener { document ->
-                if (document != null) {
-                    for (result in document) {
-                        _caloriesConsumed.value = result.getLong("caloriesConsumed")?.toInt() ?: 0
-                        _caloriesBurned.value = result.getLong("caloriesBurned")?.toInt() ?: 0
-                        _steps.value = result.getLong("steps")?.toInt() ?: 0
-                        _progress.value = result.getDouble("progress")?.toFloat() ?: 0f
-                    }
-                } else {
-                    // Manejar el caso donde el documento no existe
-                    println("No se encontró el documento.")
+        // Lanzamos la operación asincrónica dentro de una coroutine
+        viewModelScope.launch {
+            try {
+                // Obtén los documentos de Firestore de manera asíncrona
+                val snapshot = db.collection("resumen").get().await()
+
+                // Procesa los documentos obtenidos
+                snapshot.documents.forEach { document ->
+                    // Actualiza los valores de StateFlow con los datos obtenidos
+                    _caloriesConsumed.emit(document.getString("calorias_consumidas")?.toInt() ?: 0)
+                    _caloriesBurned.emit(document.getString("calorias_quemadas")?.toInt() ?: 0)
+                    _steps.emit(document.getString("pasos")?.toInt() ?: 0)
+                    _progress.emit(document.getString("pregreso")?.toFloat() ?: 0f)
                 }
+            } catch (e: Exception) {
+                println("Error al obtener los documentos: ${e.message}")
             }
-            .addOnFailureListener { exception ->
-                // Manejo de errores
-                println("Error al obtener datos: ${exception.message}")
-            }
+        }
     }
 }

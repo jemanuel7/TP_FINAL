@@ -48,6 +48,14 @@ fun UserInfoScreen(navController: NavController, viewModel: UserInfoViewModel = 
     ) {
         Text("Información del Usuario")
     }
+
+
+    Button(
+        onClick = { navController.navigate("manual") },
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        Text("Manual sobre la app")
+    }
 }
 
 @Composable

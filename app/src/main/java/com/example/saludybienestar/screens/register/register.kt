@@ -13,10 +13,10 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 
 @Composable
-fun RegisterScreen(navController: NavController) {
-    var email by remember { mutableStateOf("") }
-    var password by remember { mutableStateOf("") }
-    var errorMessage by remember { mutableStateOf("") }
+fun RegisterScreen(navController: NavController, viewModel: RegisterViewModel) {
+    val email by viewModel.email.collectAsState()
+    val password by viewModel.password.collectAsState()
+    val errorMessage by viewModel.errorMessage.collectAsState()
 
     Column(
         modifier = Modifier
@@ -32,7 +32,7 @@ fun RegisterScreen(navController: NavController) {
         // Campo de email
         TextField(
             value = email,
-            onValueChange = { email = it },
+            onValueChange = { viewModel.onEmailChange(it)},
             label = { Text("Correo Electrónico") },
             modifier = Modifier.fillMaxWidth(),
             singleLine = true
@@ -43,7 +43,7 @@ fun RegisterScreen(navController: NavController) {
         // Campo de contraseña
         TextField(
             value = password,
-            onValueChange = { password = it },
+            onValueChange = { viewModel.onPasswordChange(it) },
             label = { Text("Contraseña") },
             modifier = Modifier.fillMaxWidth(),
             singleLine = true,
@@ -55,17 +55,7 @@ fun RegisterScreen(navController: NavController) {
         // Botón de registro
         Button(
             onClick = {
-                if (email.isBlank() || password.isBlank()) {
-                    errorMessage = "Por favor, completa todos los campos."
-                } else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-                    errorMessage = "Correo electrónico no válido."
-                } else if (password.length < 6) {
-                    errorMessage = "La contraseña debe tener al menos 6 caracteres."
-                } else {
-                    errorMessage = ""
-                    // Aquí puedes manejar el registro (guardar en base de datos, llamar a una API, etc.)
-                    navController.navigate("dashboard") // Navega al Dashboard después del registro
-                }
+                    viewModel.validateCredentials(navController)
             },
             modifier = Modifier.fillMaxWidth()
         ) {

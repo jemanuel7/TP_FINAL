@@ -12,6 +12,7 @@ import com.example.saludybienestar.screens.login.LoginScreen
 import com.example.saludybienestar.screens.login.LoginViewModel
 import com.example.saludybienestar.screens.manual.ManualScreen
 import com.example.saludybienestar.screens.register.RegisterScreen
+import com.example.saludybienestar.screens.register.RegisterViewModel
 
 
 @Composable
@@ -23,7 +24,7 @@ fun AppNavigation(navController: NavHostController) {
         composable("login") { LoginScreen(navController, loginViewModel)}
         composable("dashboard") { DashboardScreen(navController, DashboardViewModel()) }
         composable("registro") { RegisterActivityScreen(navController) }
-        composable("register") { RegisterScreen(navController) }
+        composable("register") { RegisterScreen(navController, RegisterViewModel()) }
         composable("userInfo") { UserInfoScreen(navController) }
         composable("manual") { ManualScreen(navController) }
     }
